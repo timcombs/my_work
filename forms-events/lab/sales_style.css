@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+main h2 {
+  margin-left: -20px;
+}
+
+main ul {
+  width: 145px;
+  display: inline-block;
+  list-style-type: circle;
+}
