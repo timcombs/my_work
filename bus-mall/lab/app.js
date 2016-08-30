@@ -11,14 +11,14 @@ for (var i = 0; i < imagePaths.length; i++) {
   //take imagePaths strings and get name out of it
   //not sure if before or after this
   var path = 'img/' + imagePaths[i];
-  var name = imagePaths[i];
-  console.log(name);
+  var name = imagePaths[i].substring(0, imagePaths[i].indexOf("."));
   //pushing null because will push something else into it later
   new Image(name, path, null);
 }
-console.log(images);
-//display first image
-drawImage();
+//display first 3 images
+for (var j = 0; j < 3; j++) {
+  drawImage();
+}
 
 //get element from html to append images
 var imageList = document.getElementById('images');
@@ -32,7 +32,9 @@ function clickHandler(e) {
 
   //clear images before displaying new images
   imageList.textContent = '';
-  drawImage();
+  for (var k = 0; k < 3; k++) {
+    drawImage();
+  }  
   console.log('click', e.target);
 }
 
