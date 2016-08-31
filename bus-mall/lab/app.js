@@ -95,14 +95,14 @@ function randomIndices(array) {
   //get 1st index
   var firstRandomIndex = Math.floor(Math.random() * imagePaths.length);
   //make sure 1st index isn't in last group
-  while (array.indexOf(firstRandomIndex) != -1){
+  while (array.indexOf(firstRandomIndex) !== -1){
     firstRandomIndex = Math.floor(Math.random() * imagePaths.length);
   }
   //get 2nd index
   var secondRandomIndex = Math.floor(Math.random() * imagePaths.length);
   //make sure 2nd index is not 1st index & not in last group
   while (secondRandomIndex === firstRandomIndex
-    || array.indexOf(secondRandomIndex) != -1) {
+    || array.indexOf(secondRandomIndex) !== -1) {
     secondRandomIndex = Math.floor(Math.random() * imagePaths.length);
   }
   //get the 3rd index
@@ -110,7 +110,7 @@ function randomIndices(array) {
   //make sure 3rd index is not 1st index or 2nd index & not in last group
   while ((thirdRandomIndex === firstRandomIndex
     || thirdRandomIndex ===  secondRandomIndex)
-    || array.indexOf(thirdRandomIndex) != -1) {
+    || array.indexOf(thirdRandomIndex) !== -1) {
     thirdRandomIndex = Math.floor(Math.random() * imagePaths.length);
   }
   arrayOfRandomIndices = [firstRandomIndex, secondRandomIndex, thirdRandomIndex];
