@@ -6,6 +6,10 @@ var imagePaths = ['bag.jpg','breakfast.jpg','dog-duck.jpg','scissors.jpg','unico
 //array that stores image obects that will keep track of clicks, views, etc.
 var images = [];
 
+//arrays that store generated random indices to display proper images
+var arrayOfRandomIndices = [];
+var oldIndexArray = [];
+
 //for-loop to create array of image objects
 for (var i = 0; i < imagePaths.length; i++) {
   //take imagePaths strings and get name out of it
@@ -25,8 +29,10 @@ Image.prototype.addView = function() {
 };
 
 //generate indices for 1st 3 images & display images
-var arrayOfRandomIndices = randomIndices();
+arrayOfRandomIndices = randomIndices(oldIndexArray);
+console.log('before 1st draw', arrayOfRandomIndices);
 drawImage(arrayOfRandomIndices);
+
 
 //get element from html to append images
 var imageList = document.getElementById('images');
@@ -48,11 +54,16 @@ function clickHandler(e) {
     for (var m = 0; m < images.length; m++) {
       if (images[m].name === targetName) {
         images[m].addClick();
+        var theClickIndex = m;
       }
     }
-
+//the click is for tracking the number clicked and percentage of those viewed
+//need array for the old displayed to be compared to the new
+//need variable for those viewed and
     //display 3 separate images
-    var arrayOfRandomIndices = randomIndices();
+    var oldIndexArray = arrayOfRandomIndices;
+    arrayOfRandomIndices = randomIndices(oldIndexArray);
+    console.log('in clickHandler', arrayOfRandomIndices)
     drawImage(arrayOfRandomIndices);
   }
 }
@@ -60,6 +71,7 @@ function clickHandler(e) {
 //make this draw out all 3 images - loops
 function drawImage(array) {
   for (var q = 0; q < array.length; q++) {
+    var theObjectIndex = array[q];
     //create elements to attach to DOM
     var img = document.createElement('img');
     var li = document.createElement('li');
@@ -75,23 +87,34 @@ function drawImage(array) {
     imageList.appendChild(li);
 
     //increment view property on image object
-    //object in the image array at the index at index p of the passed in array
-    var theObjectIndex = array[q];
     images[theObjectIndex].addView();
   }
 }
 
-function randomIndices() {
+function randomIndices(array) {
+  //get 1st index
   var firstRandomIndex = Math.floor(Math.random() * imagePaths.length);
+  //make sure 1st index isn't in last group
+  while (array.indexOf(firstRandomIndex) != -1){
+    firstRandomIndex = Math.floor(Math.random() * imagePaths.length);
+  }
+  //get 2nd index
   var secondRandomIndex = Math.floor(Math.random() * imagePaths.length);
-  while (firstRandomIndex === secondRandomIndex) {
-    var secondRandomIndex = Math.floor(Math.random() * imagePaths.length);
+  //make sure 2nd index is not 1st index & not in last group
+  while (secondRandomIndex === firstRandomIndex
+    || array.indexOf(secondRandomIndex) != -1) {
+    secondRandomIndex = Math.floor(Math.random() * imagePaths.length);
   }
+  //get the 3rd index
   var thirdRandomIndex = Math.floor(Math.random() * imagePaths.length);
-  while (firstRandomIndex === thirdRandomIndex || secondRandomIndex === thirdRandomIndex) {
-    var thirdRandomIndex = Math.floor(Math.random() * imagePaths.length);
+  //make sure 3rd index is not 1st index or 2nd index & not in last group
+  while ((thirdRandomIndex === firstRandomIndex
+    || thirdRandomIndex ===  secondRandomIndex)
+    || array.indexOf(thirdRandomIndex) != -1) {
+    thirdRandomIndex = Math.floor(Math.random() * imagePaths.length);
   }
-  return [firstRandomIndex, secondRandomIndex, thirdRandomIndex];
+  arrayOfRandomIndices = [firstRandomIndex, secondRandomIndex, thirdRandomIndex];
+  return arrayOfRandomIndices;
 }
 
 //image object constructor
@@ -103,3 +126,11 @@ function Image(name, path) {
 
   images.push(this);
 }
+
+
+//things still to do:
+  //calculate number of views and percentage clicked AFTER 25 clicks
+  //display this in the DOM
+  //update with each click after 25
+
+  //make sure that 3 different images are displayed each time
