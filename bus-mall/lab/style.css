@@ -1,0 +1,14 @@
+ul {
+  list-style: none;
+}
+
+li {
+  width: 200px;
+  display: inline-block;
+}
+
+img {
+   max-width: 150px;
+   margin: 0;
+   padding: 0;
+ }
